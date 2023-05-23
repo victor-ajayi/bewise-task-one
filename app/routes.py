@@ -1,4 +1,3 @@
-import requests
 from fastapi import APIRouter, Depends
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
