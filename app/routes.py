@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
-from utils import get_question
 
 from app.database import get_db
 from app.services import create_question
 
 from . import schemas
+from .utils import get_question
 
 root = APIRouter()
 
