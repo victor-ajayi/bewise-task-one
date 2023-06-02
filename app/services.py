@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from . import models
 
 
-def create_question(data: dict, db: Session) -> models.Question:
+def save_question(data: dict, db: Session) -> models.Question:
     question = db.query(models.Question).filter_by(id=data["id"]).first()
 
     question = models.Question(**data)

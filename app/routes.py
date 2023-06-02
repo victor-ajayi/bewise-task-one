@@ -3,7 +3,8 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.services import create_question
+from app.models.question import Question
+from app.services import save_question
 
 from . import schemas
 from .utils import get_question
@@ -15,14 +16,23 @@ root = APIRouter()
 async def index(
     request: schemas.Request, db: Session = Depends(get_db)
 ) -> schemas.Response:
-    while True:
-        question_dict = get_question(request.questions_num)
+    questions: list[dict] = get_question(request.questions_num)
 
-        try:
-            question = create_question(question_dict, db)
-        except IntegrityError:
-            continue
-        else:
-            break
+    for i in range(request.questions_num):
+        question = questions[i]
+        while True:
+            try:
+                save_question(question, db)
+            except IntegrityError:
+                question = get_question(1)
+            else:
+                break
 
-    return question
+    last_question = (
+        db.query(Question)
+        .order_by(Question.created_on_server_at.desc())
+        .limit(1)
+        .first()
+    )
+
+    return last_question

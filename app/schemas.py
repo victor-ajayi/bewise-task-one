@@ -12,6 +12,7 @@ class Response(BaseModel):
     question: str
     answer: str
     created_at: datetime
+    created_on_server_at: datetime
 
     class Config:
         orm_mode = True
