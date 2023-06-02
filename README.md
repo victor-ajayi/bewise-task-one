@@ -37,7 +37,7 @@ psql -U postgres
 
 ```JSON
 {
-	questions_num: 1
+	"questions_num": 1
 }
 ```
 
